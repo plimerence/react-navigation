@@ -17,6 +17,7 @@ import invariant from './utils/invariant';
 export default function<S: {}>(
   navigation: NavigationProp<S>
 ): NavigationScreenProp<S> {
+  let debounce = true;
   return {
     ...navigation,
     goBack: (key?: ?string): boolean => {
@@ -37,6 +38,25 @@ export default function<S: {}>(
       params?: NavigationParams,
       action?: NavigationNavigateAction
     ): boolean =>
+       if (debounce) {
+        debounce = false;
+        navigation.dispatch(
+          NavigationActions.navigate({
+            routeName,
+            params,
+            action,
+          }),
+        );
+        setTimeout(
+          () => {
+            debounce = true;
+          },
+          500,
+        );
+        return true;
+      }
+      return false;
+    },
       navigation.dispatch(
         NavigationActions.navigate({ routeName, params, action })
       ),
