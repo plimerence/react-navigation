@@ -37,7 +37,7 @@ export default function<S: {}>(
       routeName: string,
       params?: NavigationParams,
       action?: NavigationNavigateAction
-    ): boolean =>
+    ): boolean =>{
        if (debounce) {
         debounce = false;
         navigation.dispatch(
@@ -57,9 +57,6 @@ export default function<S: {}>(
       }
       return false;
     },
-      navigation.dispatch(
-        NavigationActions.navigate({ routeName, params, action })
-      ),
     /**
      * For updating current route params. For example the nav bar title and
      * buttons are based on the route params.
